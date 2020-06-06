@@ -1,0 +1,55 @@
+#homecontainer{
+    position: relative;
+    left: 18%;
+    
+    width: 800px;
+    height: 500px;
+    background-color: aqua;
+    background-image: url("../pic/pngwave10.png");
+    background-position: center;
+    background-size: cover;
+}
+#username{
+    position: absolute;
+    left: 35%;
+    top: 22%;
+}
+#contents{
+    position: absolute;
+    left: 35%;
+    top: 30%;
+    width: 165px;
+    display: grid;
+    grid-row-gap: 20px;
+    
+}
+#secondpagelink{
+        display: block;
+        width: 100%;
+        line-height: 25px;
+    }
+
+
+#start{
+    background-image: url("../pic/start1.png");
+    height: 25px;
+    width: 100%;
+    background-attachment: inherit;
+    background-position: center;
+    background-size: cover;
+}
+#start:hover{
+    cursor: pointer;
+}
+
+#exit{
+    background-image: url("../pic/eixt1.png");
+    height: 25px;
+    background-attachment: inherit;
+    background-position: center;
+    background-size: cover;
+}
+#exit:hover{
+    cursor: pointer;
+}
+
