@@ -10,8 +10,9 @@
     var minutetimer = document.getElementById("minutetime");
     var secondtimer = document.getElementById("secondtime");
     var chickensound  = new sound("../sound/Clucking-chicken.mp3");
-    var gamesound ;
-
+    var gamesound ; var b1,b1_back,b2,b2_back, b12; //ss refer to interval of birds
+    var mybird = document.getElementById("birdimg");
+    var mybird1 = document.getElementById("birdimg1");
     //initial egg basket at the center and welcome msg
     var begine = function init(){				
         objImage.style.position='absolute';
@@ -20,6 +21,8 @@
         objImage.offsetLeft='300px';
         document.getElementById('pause').hidden = true; //hide pause button in beginning
         document.getElementById("welcome").innerHTML = "Welcome " + username + " have fun :) ";
+        document.getElementById("bird").hidden =true;
+        document.getElementById("bird1").hidden =true;
 
     };
 
@@ -40,17 +43,67 @@
     };
     //create new  egg and append it to container
     function new_egg(source, type) { 
+        
         var egg = new Object();
         egg.sourceimg = document.createElement("img");
         egg.sourceimg.src = (source);
         egg.sourceimg.style.position ="absolute";
         egg.sourceimg.style.width = "40px";
-        egg.sourceimg.style.top = "-60px";
+        egg.sourceimg.style.top = "100px";
         egg.type = type;
         egg.divcontainer = document.getElementById("container");
         egg.divcontainer.appendChild(egg.sourceimg);
-        egg.divcontainer.appendChild(egg.sourceimg.cloneNode(true));
+        
         return egg;
+    };
+    
+    function myanimatefun_bird1(){ //to animate first bird
+        var birdpos = 0;
+        b1 = setInterval(move, 15);
+        function move(){
+            if (birdpos === 600) {
+                mybird.setAttribute('style','transform:scaleX(-1)');
+                clearInterval(b1);
+                b1_back= setInterval(moveback , 15);
+                function moveback(){
+                    if (birdpos === 0) {
+                    
+                        mybird.setAttribute('style','transform:scaleX(1)');
+                        clearInterval(b1_back);
+                    } else {
+                        birdpos--;
+                        mybird.style.left = birdpos + 'px';
+                    } 
+                };
+            } else {
+                birdpos++;
+                mybird.style.left = birdpos + 'px';
+            }
+        }
+    };
+
+    function myanimatefun_bird2(){ //to animate second bird
+        var birdpos = 600;
+        b2 = setInterval(move, 15);
+        function move(){
+            if (birdpos === 0) {
+                mybird1.setAttribute('style','transform:scaleX(1)');
+                clearInterval(b2);
+                b2_back= setInterval(moveback , 15);
+                function moveback(){
+                    if (birdpos === 600) {
+                        mybird1.setAttribute('style','transform:scaleX(-1)');
+                        clearInterval(b2_back);
+                    } else {
+                        birdpos++;
+                        mybird1.style.left = birdpos + 'px';
+                    }
+                };
+            } else {
+                birdpos--;
+                mybird1.style.left = birdpos + 'px';
+            }
+        }
     };
     
     //start playing button click
@@ -59,6 +112,21 @@
         document.getElementById("playgame1").hidden =true; //hide button
         document.getElementById("welcomeuser").hidden =true; //reset welcome msg to null
         document.getElementById('pause').style.display = "inline"; //show pause button after clicking on play button
+        document.getElementById("bird").hidden = false;
+        document.getElementById("bird1").hidden = false;
+
+        //animate bird ... execute once then repeate
+        myanimatefun_bird1();
+        myanimatefun_bird2();
+        b12 = setInterval(repeateanimation , 18000);
+        function repeateanimation(){
+            myanimatefun_bird1();
+            myanimatefun_bird2();
+            
+        };
+            
+
+        
         //check user clicked pause or not
         document.addEventListener('keydown',keycode); //to move egg basket
         keycode(event); //read key pressed  
@@ -89,6 +157,7 @@
                                 minutevalue = 1;
                                 minutetimer.innerHTML = "0" + minutevalue;
                                 secondvalue = 60;
+
                             } 
                             else { //pressed cancelled
                                 counter = 0; lifecounter = 3 ;
@@ -110,7 +179,13 @@
                 if(playing){ //if it's playing mode
                     var source = '../pic/whiteegg.png' ;
                     var egg =new_egg( source ,1 ); //return obj
-                    egg.sourceimg.style.left = randomvalue(5,730) + 'px';
+                    // egg.sourceimg.style.left = randomvalue(5,730) + 'px';
+                    if (randomvalue(1,2) === 1) {
+                        egg.sourceimg.style.left = (mybird.offsetLeft + 60 )+ 'px';
+                    } else {
+                        egg.sourceimg.style.left = (mybird1.offsetLeft + 60 )+ 'px';
+                    }
+                    
                     fallenegg(egg);
                 }
             }
@@ -123,18 +198,22 @@
                     var whiteegg_src =  '../pic/whiteegg.png' ;
                     var goldenegg_src = '../pic/goldegg.png' ;
                     var blackegg_src =  '../pic/blackegg.png';
-                    eggtype = randomvalue(1 , 3); //create random color of egg
-                    if (eggtype === 1) { // it's a white egg score 1
-                        egg = new_egg(whiteegg_src,eggtype);
+                    eggtype = randomvalue(1 , 5); //create random color of egg
+                    if (eggtype === 1 || eggtype === 3 ||eggtype===5  ) { // it's a white egg score 1
+                        egg = new_egg(whiteegg_src, 1);
 
                     } 
                     else if (eggtype === 2) { //it's a golded egg score 3
                         egg = new_egg(goldenegg_src,eggtype);
                     }
-                    else{ //eggtype == 3 it's a black egg score -10
-                        egg = new_egg (blackegg_src,eggtype);
+                    else{ //eggtype == 4 it's a black egg score -10
+                        egg = new_egg (blackegg_src,3);
                     }
-                    egg.sourceimg.style.left = randomvalue(5,730) + 'px';
+                    if (randomvalue(1,2) === 1) {
+                        egg.sourceimg.style.left = (mybird.offsetLeft + 60 )+ 'px';
+                    } else {
+                        egg.sourceimg.style.left = (mybird1.offsetLeft + 60 )+ 'px';
+                    }
                     fallenegg(egg);
                 }
             };
@@ -145,7 +224,7 @@
 
     //animate egg falling
     function fallenegg(egg){
-        var pos = 0;
+        var pos = 100;
         var id = setInterval(frame, 5);
         function frame(){ 
             if (playing) { //if user didn't press pause
@@ -162,9 +241,14 @@
                         lifecounter--;
                     }
                     if (lifecounter === 0) {
+                       
                         if (confirm("You got 0 life left :( play again ?!")) {
                             counter = 0; lifecounter = 3 ; //reset result and lives
                             document.getElementById("result").innerHTML = counter;
+                            // //you should clear any interval of birds
+
+                            //i want to reload a div without reloading the whole page ... search about
+                           window.location.href ="../html/gamepage.html?mode=" + url.get('mode') +"&name="+url.get('name');
                         } else { //pressed cancelled
                             counter = 0; lifecounter = 3 ;
                             window.location.href = "../index.html"; //redirected to home page
@@ -286,6 +370,8 @@
     window.keycode = keycode;
     window.fallenegg = fallenegg;
     window.new_egg = new_egg;
+    window.myanimatefun_bird1 = myanimatefun_bird1;
+    window.myanimatefun_bird2 = myanimatefun_bird2;
 }());
 
 //calling functions
