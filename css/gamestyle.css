@@ -13,6 +13,23 @@
     width: 100%;
     height: 200px;
 }
+#bird{
+    position: absolute;
+    top: -7px;
+}
+
+#bird img{
+    position: relative;
+}
+#bird1{
+    position: absolute;
+    top: -7px;
+}
+#bird1 img{
+    position: relative;
+    transform: scaleX(-1);
+    left: 600px;
+}
 #eggbox img{
     width: 100px;
     height: 100px;
@@ -41,25 +58,38 @@
     position: relative;
     width: 100%;
     height: 100px;
+    top: 200px;
 }
+
 #pause-play_container{
     position: absolute;
     right: 10px;
     top: 10px;
+    border-radius: 50px;
+    background-color: #03A9F4;
+    border: black solid 4px;
 }
 #pause-play_container img{
+    position: relative;
     display: none;
+}
+
+#pause-play_container:hover{
+    cursor: pointer;
+    
+    border:white solid 4px;
+    
 }
 #welcomeuser{
     position: absolute;
-    right: 265px;
+    right: 195px;
     top: 130px;
 }
 
 
 #playgame1{
     position: absolute;
-    right: 346px;
+    right: 317px;
     top: 190px;
 }
 /*
@@ -140,4 +170,4 @@
         padding:0.46em 1.6em;
   
         box-sizing: border-box;
-    }
+}
